@@ -23,37 +23,38 @@ const PORT = process.env.PORT || 3000;
 const DB_URL = process.env.DB_URL;
 
 // CONNECTING db
-main()
-  .then(() => console.log("Database connected"))
-  .catch((err) => console.log(err, "error"));
+// main()
+//   .then(() => console.log("Database connected"))
+//   .catch((err) => console.log(err, "error"));
 
-async function main() {
-  await mongoose.connect(DB_URL);
-}
+// async function main() {
+//   await mongoose.connect(DB_URL);
+// }
 
 // ROUTES
 app.use("/", router);
 
 // SOCKET IO
-let ids = [];
-let currentIndex = 0;
-
 io.on("connection", (socket) => {
-  socket.on("user-data", (message, id, time) => {
-    console.log(message, id, time);
-    ids.push(id);
-    if (ids.length >= 1 || currentIndex >= ids.length) {
-      const batch = ids.slice(0, 2);
-      console.log(batch);
-      // currentIndex += 3;
+  socket.on("sendData", (message, id) => {
+    console.log(message, id);
+    const bacthSize = 3;
+    let index = 0;
 
-      socket.emit("sendData", message, batch);
+    function sendNextBatch() {
+      const batch = id.slice(index, index + bacthSize);
 
-      if (currentIndex >= ids.length) {
-        currentIndex = 0;
-        ids = [];
+      if (batch.length > 0) {
+        socket.emit("sendIds", message, batch);
+        index += bacthSize;
+        setTimeout(sendNextBatch, 60000);
+      } else if (batch.length <= 0) {
+        const endMsg = "all messages has been send please enter new id's";
+        socket.emit("endMsg", endMsg);
       }
     }
+
+    sendNextBatch();
   });
 });
 
