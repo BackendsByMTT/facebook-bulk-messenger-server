@@ -7,7 +7,7 @@ const app = express();
 require("dotenv").config();
 const mongoose = require("mongoose");
 const cors = require("cors");
-const router = require("./routes/userRoutes");
+const router = require("./routes/routes");
 const server = http.createServer(app);
 const io = socketIo(server);
 // CORS
@@ -23,37 +23,37 @@ const PORT = process.env.PORT || 3000;
 const DB_URL = process.env.DB_URL;
 
 // CONNECTING db
-// main()
-//   .then(() => console.log("Database connected"))
-//   .catch((err) => console.log(err, "error"));
+main()
+  .then(() => console.log("Database connected"))
+  .catch((err) => console.log(err, "error"));
 
-// async function main() {
-//   await mongoose.connect(DB_URL);
-// }
+async function main() {
+  await mongoose.connect(DB_URL);
+}
 
 // ROUTES
 app.use("/", router);
 
 // SOCKET IO
 io.on("connection", (socket) => {
-  socket.on("sendData", (message, id) => {
-    console.log(message, id);
-    const bacthSize = 3;
+  socket.on("sendData", (message, id, time, queue) => {
+    console.log(message, id, time, queue);
+    const batchSize = parseInt(queue);
     let index = 0;
-
+    const Time = time * 10000;
+    console.log(Time);
     function sendNextBatch() {
-      const batch = id.slice(index, index + bacthSize);
-
+      const batch = id.slice(index, index + batchSize);
       if (batch.length > 0) {
         socket.emit("sendIds", message, batch);
-        index += bacthSize;
-        setTimeout(sendNextBatch, 60000);
-      } else if (batch.length <= 0) {
-        const endMsg = "all messages has been send please enter new id's";
+        index += batchSize;
+
+        setTimeout(sendNextBatch, Time);
+      } else {
+        const endMsg = "All messages have been sent. Please enter new IDs.";
         socket.emit("endMsg", endMsg);
       }
     }
-
     sendNextBatch();
   });
 });
