@@ -18,22 +18,6 @@ const getData = async (req, res) => {
   }
 };
 
-const saveRejectedData = async (req, res) => {
-  try {
-    await new userModule.RejectedIds(req.body).save();
-    res.status(201).json("Rejected ids have been saved to the database");
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
 
-const getRejectedData = async (req, res) => {
-  try {
-    const rejectedData = await userModule.RejectedIds.find();
-    res.status(200).json(rejectedData);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
 
-module.exports = { createUserData, getData, saveRejectedData, getRejectedData };
+module.exports = { createUserData, getData };

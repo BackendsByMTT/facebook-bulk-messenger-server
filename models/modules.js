@@ -8,31 +8,22 @@ const userDataSchema = new Schema(
     message: {
       type: String,
       required: true,
-      unique: true,
     },
     FacebookID: {
-      type: [Number],
+      type: Number,
       required: true,
+      unique: false,
     },
-  },
-  { timestamps: true }
-);
-
-// Define RejectedIds schema
-const rejectedIdsSchema = new Schema(
-  {
-    id: {
+    status: {
       type: String,
       required: true,
-      unique: true,
     },
   },
   { timestamps: true }
 );
 
-// Create models
+// Create model
 const UserData = mongoose.model("UserData", userDataSchema);
-const RejectedIds = mongoose.model("Rejected", rejectedIdsSchema);
 
-// Export models
-module.exports = { UserData, RejectedIds };
+// Export model
+module.exports = { UserData };

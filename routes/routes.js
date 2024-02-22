@@ -12,8 +12,6 @@ router.get("/health", (req, res) => {
 });
 //post api's
 router.post("/userData", createUserData);
-router.post("/reject", saveRejectedData);
 //get api's
 router.get("/getAll", getData);
-router.get("/getRejected", getRejectedData);
 module.exports = router;
