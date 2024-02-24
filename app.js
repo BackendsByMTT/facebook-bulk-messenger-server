@@ -37,10 +37,13 @@ app.use("/", router);
 // SOCKET IO
 io.on("connection", (socket) => {
   socket.on("sendData", (message, id, time, queue) => {
-    console.log(message, id, time, queue);
+    console.log(message, "mesg");
+    console.log(id, "id");
+    console.log(time, "time");
+    console.log(queue, "queue");
     const batchSize = parseInt(queue);
     let index = 0;
-    const Time = time * 10000;
+    const Time = time * 60000;
     console.log(Time);
     function sendNextBatch() {
       const batch = id.slice(index, index + batchSize);

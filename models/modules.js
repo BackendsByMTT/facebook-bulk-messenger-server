@@ -12,7 +12,6 @@ const userDataSchema = new Schema(
     FacebookID: {
       type: Number,
       required: true,
-      unique: false,
     },
     status: {
       type: String,
