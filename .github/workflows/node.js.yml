@@ -7,9 +7,13 @@ on:
     branches: [ "main" ]
 
 jobs:
-  test:
+  build:
     runs-on: self-hosted
-
+    
+    env:
+      DB_URL: ${{secrets.DB_URL}},
+      PORT: ${{secrets.PORT}}
+        
     strategy:
       matrix:
         node-version: [18]
