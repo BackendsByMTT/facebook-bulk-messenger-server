@@ -9,6 +9,12 @@ on:
 jobs:
   build:
     runs-on: self-hosted
+
+     steps:
+      - name: Debug Environment Variables
+        run: |
+          echo "DB_URL: $DB_URL"
+          echo "PORT: $PORT"
     
     env:
       DB_URL: ${{secrets.DB_URL}}
