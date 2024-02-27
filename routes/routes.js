@@ -8,7 +8,7 @@ const {
 } = require("../controllers/controller");
 //default route
 router.get("/health", (req, res) => {
-  res.status(200).json({ message: "Server Is healthy" });
+  res.status(200).json({ message: "Server Is Running healthy" });
 });
 //post api's
 router.post("/userData", createUserData);
