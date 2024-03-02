@@ -10,7 +10,7 @@ const userDataSchema = new Schema(
       required: true,
     },
     FacebookID: {
-      type: Number,
+      type: String,
       required: true,
     },
     status: {
