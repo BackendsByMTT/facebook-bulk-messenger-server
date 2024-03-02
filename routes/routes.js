@@ -2,16 +2,22 @@ const express = require("express");
 const router = express.Router();
 const {
   createUserData,
-  saveRejectedData,
   getData,
-  getRejectedData,
+  deleteUserData, 
 } = require("../controllers/controller");
-//default route
+
+// Default route
 router.get("/health", (req, res) => {
   res.status(200).json({ message: "Server Is Running healthy" });
 });
-//post api's
+
+// Post APIs
 router.post("/userData", createUserData);
-//get api's
+
+// Get APIs
 router.get("/getAll", getData);
+
+// Delete API
+router.delete("/delete/:id", deleteUserData);
+
 module.exports = router;

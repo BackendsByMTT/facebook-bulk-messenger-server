@@ -18,6 +18,14 @@ const getData = async (req, res) => {
   }
 };
 
+const deleteUserData = async (req, res) => {
+  try {
+    const id = req.params.id;
+    await userModule.UserData.findByIdAndDelete(id);
+    res.status(200).json("User data deleted successfully");
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
-
-module.exports = { createUserData, getData };
+module.exports = { createUserData, getData, deleteUserData };
