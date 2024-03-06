@@ -1,4 +1,3 @@
-"use client";
 
 const express = require("express");
 const http = require("http");
@@ -8,7 +7,6 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const cors = require("cors");
 const router = require("./routes/routes");
-const internal = require("stream");
 const server = http.createServer(app);
 const io = socketIo(server);
 // CORS

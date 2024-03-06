@@ -4,6 +4,8 @@ const {
   createUserData,
   getData,
   deleteUserData,
+  registerUser,
+  loginUser,
 } = require("../controllers/controller");
 
 // Default route
@@ -13,10 +15,10 @@ router.get("/", (req, res) => {
 
 // Post APIs
 router.post("/userData", createUserData);
-
+router.post("/sign_up", registerUser);
+router.post("/login", loginUser);
 // Get APIs
 router.get("/getAll", getData);
-
 // Delete API
 router.delete("/delete/:id", deleteUserData);
 
