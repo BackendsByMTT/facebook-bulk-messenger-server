@@ -3,11 +3,11 @@ const router = express.Router();
 const {
   createUserData,
   getData,
-  deleteUserData, 
+  deleteUserData,
 } = require("../controllers/controller");
 
 // Default route
-router.get("/health", (req, res) => {
+router.get("/", (req, res) => {
   res.status(200).json({ message: "Server Is Running healthy" });
 });
 
