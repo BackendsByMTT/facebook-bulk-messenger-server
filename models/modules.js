@@ -1,19 +1,21 @@
 const mongoose = require("mongoose");
-
+const bcrypt = require("bcrypt");
 const Schema = mongoose.Schema;
 
-// Define UserData schema
-const userDataSchema = new Schema(
+// Define Agent schema
+const agentSchema = new Schema(
   {
-    message: {
+    name: {
       type: String,
       required: true,
     },
-    FacebookID: {
+    email: {
       type: String,
       required: true,
+      unique: true,
+      lowercase: true,
     },
-    status: {
+    password: {
       type: String,
       required: true,
     },
@@ -21,8 +23,51 @@ const userDataSchema = new Schema(
   { timestamps: true }
 );
 
-// Create model
-const UserData = mongoose.model("UserData", userDataSchema);
+// Define UserData schema
+const agentsData = new Schema(
+  {
+    agentId: {
+      type: String,
+      required: true},
 
-// Export model
-module.exports = { UserData };
+          message: {
+            type: String,
+            required: true,
+          },
+          FacebookID: {
+            type: String,
+            required: true,
+          },
+          status: {
+            type: String,
+            required: true,
+          },
+        }  ,
+  { timestamps: true }
+);
+
+// Hash password before saving
+agentSchema.pre("save", async function (next) {
+  try {
+    if (!this.isModified("password")) {
+      return next();
+    }
+    const hashedPassword = await bcrypt.hash(this.password, 10);
+    this.password = hashedPassword;
+    return next();
+  } catch (err) {
+    return next(err);
+  }
+});
+
+// Compare password method
+agentSchema.methods.comparePassword = async function (password) {
+  return await bcrypt.compare(password, this.password);
+};
+
+// Create models
+const AgentsData = mongoose.model("agentsData", agentsData);
+const Agent = mongoose.model("Agent", agentSchema);
+
+// Export models
+module.exports = { AgentsData, Agent };

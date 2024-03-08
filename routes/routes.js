@@ -1,10 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const {
-  createUserData,
+  createAgentsData,
   getData,
-  deleteUserData,
+  registerUser,
+  loginUser,
+  deleteAgentsData,
 } = require("../controllers/controller");
+const authMiddleware = require("../middleware/authentication");
 
 // Default route
 router.get("/", (req, res) => {
@@ -12,12 +15,14 @@ router.get("/", (req, res) => {
 });
 
 // Post APIs
-router.post("/userData", createUserData);
+router.post("/userData", createAgentsData);
+router.post("/sign_up", registerUser);
+router.post("/login", loginUser);
 
-// Get APIs
-router.get("/getAll", getData);
+// Get APIs - Apply authMiddleware to restrict access to authenticated users only
+router.get("/getData", getData);
 
 // Delete API
-router.delete("/delete/:id", deleteUserData);
+router.delete("/delete/:id", deleteAgentsData);
 
 module.exports = router;
