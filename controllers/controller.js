@@ -49,13 +49,13 @@ const getData = async (req, res) => {
     if (!agentId) {
       return res.status(400).json({ error: "Agent ID is required" });
     }
-    const AgentsData = await userModule.AgentsData.findOne({});
-    if (!AgentsData) {
+    const AgentsData = await userModule.AgentsData.find({ agentId });
+    if (AgentsData.length === 0) {
       return res
         .status(404)
         .json({ error: "No data found for the provided agent ID" });
     }
-    res.status(200).json(AgentsData.data);
+    res.status(200).json(AgentsData);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

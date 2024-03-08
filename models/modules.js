@@ -28,12 +28,8 @@ const agentsData = new Schema(
   {
     agentId: {
       type: String,
-      required: true,
-      unique: true, 
-    },
-    data: {
-      type: [
-        {
+      required: true},
+
           message: {
             type: String,
             required: true,
@@ -46,11 +42,7 @@ const agentsData = new Schema(
             type: String,
             required: true,
           },
-        },
-      ],
-      default: [], // Default value as an empty array
-    },
-  },
+        }  ,
   { timestamps: true }
 );
 
