@@ -24,19 +24,31 @@ const agentSchema = new Schema(
 );
 
 // Define UserData schema
-const userDataSchema = new Schema(
+const agentsData = new Schema(
   {
-    message: {
+    agentId: {
       type: String,
       required: true,
+      unique: true, 
     },
-    FacebookID: {
-      type: String,
-      required: true,
-    },
-    status: {
-      type: String,
-      required: true,
+    data: {
+      type: [
+        {
+          message: {
+            type: String,
+            required: true,
+          },
+          FacebookID: {
+            type: String,
+            required: true,
+          },
+          status: {
+            type: String,
+            required: true,
+          },
+        },
+      ],
+      default: [], // Default value as an empty array
     },
   },
   { timestamps: true }
@@ -62,8 +74,8 @@ agentSchema.methods.comparePassword = async function (password) {
 };
 
 // Create models
-const UserData = mongoose.model("UserData", userDataSchema);
+const AgentsData = mongoose.model("agentsData", agentsData);
 const Agent = mongoose.model("Agent", agentSchema);
 
 // Export models
-module.exports = { UserData, Agent };
+module.exports = { AgentsData, Agent };
